@@ -20,8 +20,8 @@ export class BotService {
         ]).resize(),
       );
     } catch (error) {
-       ctx.reply('❌ Xatolik yuz berdi');
-       return
+      ctx.reply('❌ Xatolik yuz berdi');
+      return;
     }
   }
 
@@ -37,12 +37,12 @@ export class BotService {
           [Markup.button.callback(`Dachalarni ko'rish`, `findAll`)],
           [Markup.button.callback(`Yangi Dacha qo'shish`, `Create`)],
           [Markup.button.callback(`Dachalarni o'chirish`, `Delete`)],
-          [Markup.button.callback(`Bugun qoshilgan Dachalar`,"Bugun")]
+          [Markup.button.callback(`Bugun qoshilgan Dachalar`, 'Bugun')],
         ]),
       );
     } catch (error) {
-       ctx.reply('❌ Xatolik yuz berdi');
-       return
+      ctx.reply('❌ Xatolik yuz berdi');
+      return;
     }
   }
 
@@ -81,8 +81,8 @@ export class BotService {
       await ctx.reply('Dacha nomini kiriting: ');
       ctx.session.name = 'name';
     } catch (error) {
-       await ctx.reply('❌ Xatolik yuz berdi');
-       return
+      await ctx.reply('❌ Xatolik yuz berdi');
+      return;
     }
   }
   async Kunlik(ctx: IMyContext) {
@@ -99,10 +99,8 @@ export class BotService {
       ctx.reply(`📊 Bugungi foydalanuvchilar soni: ${soni} ta`);
       return;
     } catch (error) {
-       ctx.reply(
-        `❌ Xatolik yuz berdi. Iltimos, keyinroq urinib ko'ring.`,
-      );
-      return
+      ctx.reply(`❌ Xatolik yuz berdi. Iltimos, keyinroq urinib ko'ring.`);
+      return;
     }
   }
 
@@ -118,12 +116,15 @@ export class BotService {
       });
 
       if (!dachalar.length) {
-         ctx.reply('🛑 Hozircha xech qanday dacha mavjud emas.');
-         return
+        ctx.reply('🛑 Hozircha xech qanday dacha mavjud emas.');
+        return;
       }
 
       const buttonlar = dachalar.map((dacha) => [
-        Markup.button.callback(dacha.name!, `dacha:${dacha.name!.toLowerCase()}`),
+        Markup.button.callback(
+          dacha.name!,
+          `dacha:${dacha.name!.toLowerCase()}`,
+        ),
       ]);
 
       buttonlar.push([Markup.button.callback('Ortga', 'ortga')]);
@@ -134,8 +135,8 @@ export class BotService {
       );
     } catch (error) {
       console.error(error);
-       ctx.reply(`❌ Xatolik yuz berdi. Qaytadan urinib ko'ring.`);
-       return
+      ctx.reply(`❌ Xatolik yuz berdi. Qaytadan urinib ko'ring.`);
+      return;
     }
   }
 
@@ -169,21 +170,20 @@ export class BotService {
     ctx.session.image = null;
     ctx.session.description = null;
     await ctx.reply(
-      `📋 <b>Admin Yordam Bo'limi</b>\n
-    Assalomu alaykum, ${ctx.from?.first_name || 'Hurmatli foydalanuvchi'}!\n
-    Siz admin sifatida quyidagi imkoniyatlarga egasiz:
-
-    🏕️ <b>Yangi dacha qo'shish:</b> menyuga yangi Dacha, ularning nomi, narxi, tavsifi va rasm bilan qo'shishingiz mumkin.
-
-    🗑 <b>Dachani o'chirish:</b> mavjud menyudan istalgan Dacha o'chirishingiz mumkin.
-
-    📋 <b>Menyu ro'yxatini ko'rish:</b> barcha mavjud Dachalarni to'liq ro'yxati bilan ko'rishingiz mumkin.
-
-    📊 <b>Reyting statistikasi:</b> foydalanuvchilar tomonidan eng ko'p baho berilgan Dachani ko'rib, oshxonada shu taomni tayyorlash haqida qaror qabul qilishingiz mumkin.
+       `📋 <b>Yordam bo'limi</b>\n
+    Assalomu alaykum! ${ctx.from?.first_name || 'Hurmatli foydalanuvchi'}   Bu bot orqali siz damolish maskanlribilan  tanishishingiz va ularga baho berishingiz mumkin.\n
+    🧾 <b>Bot imkoniyatlari:</b>
     
-    🛠 <b>To'liq nazorat:</b> foydalanuvchilar faoliyati, reytinglar va Dacha haqida umumiy nazoratga egasiz.
+    🏕️ <b>Dachalar ro'yxati</b> - mavjud barcha dachalarni rasm, narx va tavsifi bilan ko'rishingiz mumkin.
     
-    Agar sizga texnik yordam kerak bo'lsa yoki muammo yuzaga kelsa, quyidagi kontakt orqali bog'laning: @Abduhamid_1852 Yoki @lm_faxa
+    ⭐️ <b>Reyting berish</b> - har bir taomga 1 dan 5 gacha baho berishingiz mumkin.
+    
+    🏆 <b>Eng yuqori baholangan Dacha</b> - foydalanuvchilar tomonidan eng ko'p baholangan Dachani ko'rishingiz mumkin.
+    
+    ❓ <b>Yordam</b> - ushbu bo'lim orqali botdan qanday foydalanishni bilib olasiz.
+    
+    Agar sizda savollar bo'lsa, admin bilan bog'laning: @sherzodbek311
+    
     `,
       { parse_mode: 'HTML' },
     );
@@ -195,7 +195,7 @@ export class BotService {
         await ctx.reply(
           `Siz menyu oynasidasiz`,
           Markup.keyboard([
-            ['📊 reyting qoldirish', `🏕️ Dachalarn ko'rish`, "🙋🏼‍♂️ Help"],
+            ['📊 reyting qoldirish', `🏕️ Dachalarn ko'rish`, '🙋🏼‍♂️ Help'],
           ]).resize(),
         );
         return;
@@ -204,7 +204,7 @@ export class BotService {
         await ctx.reply(
           `Siz menyu oynasiga o'tdingiz`,
           Markup.keyboard([
-            ['📊 reyting qoldirish', `🏕️ Dachalarn ko'rish`, "🙋🏼‍♂️ Help"],
+            ['📊 reyting qoldirish', `🏕️ Dachalarn ko'rish`, '🙋🏼‍♂️ Help'],
           ]).resize(),
         );
         return;
@@ -364,8 +364,8 @@ export class BotService {
         });
         return;
       } else {
-         await ctx.reply("❌ Ma'lumotlar to'liq emas!");
-         return
+        await ctx.reply("❌ Ma'lumotlar to'liq emas!");
+        return;
       }
     }
 
@@ -420,14 +420,14 @@ export class BotService {
         await ctx.reply('🛑 Hozircha Dachalar mavjud emas.');
         return;
       }
-      ctx.session.stepAdmin = "bugun"
-      ctx.session.SS = "ss"
+      ctx.session.stepAdmin = 'bugun';
+      ctx.session.SS = 'ss';
       const buttons = dachalar.map((dacha) => [
         Markup.button.callback(dacha.name || 'Nomalum', `bugun:${dacha.id}`),
       ]);
 
       await ctx.reply(
-        "📃 Bugun qushlgan Dachalarni tanlayng:",
+        '📃 Bugun qushlgan Dachalarni tanlayng:',
         Markup.inlineKeyboard(
           dachalar.map((dacha) => [
             Markup.button.callback(
@@ -437,40 +437,43 @@ export class BotService {
           ]),
         ),
       );
-      ctx.answerCbQuery()
-      ctx.reply("Menyu",Markup.keyboard([["✅ Saqlash", "Ortga"],["💎 Saralangan Dachalar","🗑 O'chirish"]
-      ]).resize())
+      ctx.answerCbQuery();
+      ctx.reply(
+        'Menyu',
+        Markup.keyboard([
+          ['✅ Saqlash', 'Ortga'],
+          ['💎 Saralangan Dachalar', "🗑 O'chirish"],
+        ]).resize(),
+      );
     } catch (error) {
-       ctx.reply("❌ Xatolik yuz berdi? Keyinroq urinib ko'ring.");
-       return
+      ctx.reply("❌ Xatolik yuz berdi? Keyinroq urinib ko'ring.");
+      return;
     }
   }
 
   async Saqlash(ctx: IMyContext) {
     try {
       const mavjudlar = await this.prisma.bugun.findMany();
-      const mavjudIds = new Set(mavjudlar.map(i => i.dachaId));
+      const mavjudIds = new Set(mavjudlar.map((i) => i.dachaId));
       const sessiyaDachalar = ctx.session.dacha || [];
-      const yangiDachalar = sessiyaDachalar.filter(id => !mavjudIds.has(id));
-      
+      const yangiDachalar = sessiyaDachalar.filter((id) => !mavjudIds.has(id));
+
       if (yangiDachalar.length > 0) {
         await Promise.all(
-          yangiDachalar.map(id => 
-            this.prisma.bugun.create({ data: { dachaId: id } })
-          )
+          yangiDachalar.map((id) =>
+            this.prisma.bugun.create({ data: { dachaId: id } }),
+          ),
         );
         ctx.session.dacha = [];
         ctx.reply("✅ Yangi ma'lumotlar saqlandi 🎉");
       } else {
-        ctx.reply("ℹ️ Bu dacha allaqachon tanlangan!");
+        ctx.reply('ℹ️ Bu dacha allaqachon tanlangan!');
       }
-  
     } catch (error) {
       console.error(error);
       ctx.reply("❌ Xatolik yuz berdi. Keyinroq urinib ko'ring.");
     }
   }
-  
 
   async delet(ctx: IMyContext) {
     try {
@@ -498,8 +501,8 @@ export class BotService {
         ),
       );
     } catch (error) {
-       ctx.reply("❌ Xatolik yuz berdi? Keyinroq urinib ko'ring.");
-       return
+      ctx.reply("❌ Xatolik yuz berdi? Keyinroq urinib ko'ring.");
+      return;
     }
   }
 
@@ -523,42 +526,40 @@ export class BotService {
     );
   }
 
-
   async saralanganlar(ctx: IMyContext) {
     try {
       const bugungiDachalar = await this.prisma.bugun.findMany();
-  
+
       if (!bugungiDachalar.length) {
         await ctx.reply('🤷‍♂️ Bugun uchun hech qanday dacha tanlanmagan.');
         return;
       }
 
-      const dachaIds = bugungiDachalar.map(item => item.dachaId);
-  
+      const dachaIds = bugungiDachalar.map((item) => item.dachaId);
+
       const dachalar = await this.prisma.dacha.findMany({
         where: { id: { in: dachaIds } },
       });
-  
+
       if (!dachalar.length) {
-        await ctx.reply("🛑 Tanlangan dachalar topilmadi.");
+        await ctx.reply('🛑 Tanlangan dachalar topilmadi.');
         return;
       }
 
-      const buttons = dachalar.map(dacha => [
+      const buttons = dachalar.map((dacha) => [
         Markup.button.callback(
-          `🗑 ${dacha.name || 'Noma\'lum'}`,
-          `UU:${dacha.id}`
-        )
+          `🗑 ${dacha.name || "Noma'lum"}`,
+          `UU:${dacha.id}`,
+        ),
       ]);
-  
+
       await ctx.reply(
         "🗑 O'chirish uchun saralangan dacha tanlang:",
-        Markup.inlineKeyboard(buttons)
+        Markup.inlineKeyboard(buttons),
       );
     } catch (error) {
       console.error(error);
       await ctx.reply("❌ Xatolik yuz berdi. Keyinroq urinib ko'ring.");
     }
   }
-  
 }

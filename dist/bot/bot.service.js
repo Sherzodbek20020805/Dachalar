@@ -43,7 +43,7 @@ let BotService = class BotService {
                 [telegraf_1.Markup.button.callback(`Dachalarni ko'rish`, `findAll`)],
                 [telegraf_1.Markup.button.callback(`Yangi Dacha qo'shish`, `Create`)],
                 [telegraf_1.Markup.button.callback(`Dachalarni o'chirish`, `Delete`)],
-                [telegraf_1.Markup.button.callback(`Bugun qoshilgan Dachalar`, "Bugun")]
+                [telegraf_1.Markup.button.callback(`Bugun qoshilgan Dachalar`, 'Bugun')],
             ]));
         }
         catch (error) {
@@ -154,34 +154,33 @@ let BotService = class BotService {
         ctx.session.id = null;
         ctx.session.image = null;
         ctx.session.description = null;
-        await ctx.reply(`📋 <b>Admin Yordam Bo'limi</b>\n
-    Assalomu alaykum, ${ctx.from?.first_name || 'Hurmatli foydalanuvchi'}!\n
-    Siz admin sifatida quyidagi imkoniyatlarga egasiz:
-
-    🏕️ <b>Yangi dacha qo'shish:</b> menyuga yangi Dacha, ularning nomi, narxi, tavsifi va rasm bilan qo'shishingiz mumkin.
-
-    🗑 <b>Dachani o'chirish:</b> mavjud menyudan istalgan Dacha o'chirishingiz mumkin.
-
-    📋 <b>Menyu ro'yxatini ko'rish:</b> barcha mavjud Dachalarni to'liq ro'yxati bilan ko'rishingiz mumkin.
-
-    📊 <b>Reyting statistikasi:</b> foydalanuvchilar tomonidan eng ko'p baho berilgan Dachani ko'rib, oshxonada shu taomni tayyorlash haqida qaror qabul qilishingiz mumkin.
+        await ctx.reply(`📋 <b>Yordam bo'limi</b>\n
+    Assalomu alaykum! ${ctx.from?.first_name || 'Hurmatli foydalanuvchi'}   Bu bot orqali siz damolish maskanlribilan  tanishishingiz va ularga baho berishingiz mumkin.\n
+    🧾 <b>Bot imkoniyatlari:</b>
     
-    🛠 <b>To'liq nazorat:</b> foydalanuvchilar faoliyati, reytinglar va Dacha haqida umumiy nazoratga egasiz.
+    🏕️ <b>Dachalar ro'yxati</b> - mavjud barcha dachalarni rasm, narx va tavsifi bilan ko'rishingiz mumkin.
     
-    Agar sizga texnik yordam kerak bo'lsa yoki muammo yuzaga kelsa, quyidagi kontakt orqali bog'laning: @Abduhamid_1852 Yoki @lm_faxa
+    ⭐️ <b>Reyting berish</b> - har bir taomga 1 dan 5 gacha baho berishingiz mumkin.
+    
+    🏆 <b>Eng yuqori baholangan Dacha</b> - foydalanuvchilar tomonidan eng ko'p baholangan Dachani ko'rishingiz mumkin.
+    
+    ❓ <b>Yordam</b> - ushbu bo'lim orqali botdan qanday foydalanishni bilib olasiz.
+    
+    Agar sizda savollar bo'lsa, admin bilan bog'laning: @sherzodbek311
+    
     `, { parse_mode: 'HTML' });
     }
     async onOrtga(ctx) {
         try {
             if (ctx.session.stepUser == 'menyu') {
                 await ctx.reply(`Siz menyu oynasidasiz`, telegraf_1.Markup.keyboard([
-                    ['📊 reyting qoldirish', `🏕️ Dachalarn ko'rish`, "🙋🏼‍♂️ Help"],
+                    ['📊 reyting qoldirish', `🏕️ Dachalarn ko'rish`, '🙋🏼‍♂️ Help'],
                 ]).resize());
                 return;
             }
             if (ctx.session.stepUser == 'reyting') {
                 await ctx.reply(`Siz menyu oynasiga o'tdingiz`, telegraf_1.Markup.keyboard([
-                    ['📊 reyting qoldirish', `🏕️ Dachalarn ko'rish`, "🙋🏼‍♂️ Help"],
+                    ['📊 reyting qoldirish', `🏕️ Dachalarn ko'rish`, '🙋🏼‍♂️ Help'],
                 ]).resize());
                 return;
             }
@@ -358,16 +357,18 @@ let BotService = class BotService {
                 await ctx.reply('🛑 Hozircha Dachalar mavjud emas.');
                 return;
             }
-            ctx.session.stepAdmin = "bugun";
-            ctx.session.SS = "ss";
+            ctx.session.stepAdmin = 'bugun';
+            ctx.session.SS = 'ss';
             const buttons = dachalar.map((dacha) => [
                 telegraf_1.Markup.button.callback(dacha.name || 'Nomalum', `bugun:${dacha.id}`),
             ]);
-            await ctx.reply("📃 Bugun qushlgan Dachalarni tanlayng:", telegraf_1.Markup.inlineKeyboard(dachalar.map((dacha) => [
+            await ctx.reply('📃 Bugun qushlgan Dachalarni tanlayng:', telegraf_1.Markup.inlineKeyboard(dachalar.map((dacha) => [
                 telegraf_1.Markup.button.callback(dacha.name?.trim() ? dacha.name : `ID:${dacha.id}`, `bugun:${dacha.id}`),
             ])));
             ctx.answerCbQuery();
-            ctx.reply("Menyu", telegraf_1.Markup.keyboard([["✅ Saqlash", "Ortga"], ["💎 Saralangan Dachalar", "🗑 O'chirish"]
+            ctx.reply('Menyu', telegraf_1.Markup.keyboard([
+                ['✅ Saqlash', 'Ortga'],
+                ['💎 Saralangan Dachalar', "🗑 O'chirish"],
             ]).resize());
         }
         catch (error) {
@@ -378,16 +379,16 @@ let BotService = class BotService {
     async Saqlash(ctx) {
         try {
             const mavjudlar = await this.prisma.bugun.findMany();
-            const mavjudIds = new Set(mavjudlar.map(i => i.dachaId));
+            const mavjudIds = new Set(mavjudlar.map((i) => i.dachaId));
             const sessiyaDachalar = ctx.session.dacha || [];
-            const yangiDachalar = sessiyaDachalar.filter(id => !mavjudIds.has(id));
+            const yangiDachalar = sessiyaDachalar.filter((id) => !mavjudIds.has(id));
             if (yangiDachalar.length > 0) {
-                await Promise.all(yangiDachalar.map(id => this.prisma.bugun.create({ data: { dachaId: id } })));
+                await Promise.all(yangiDachalar.map((id) => this.prisma.bugun.create({ data: { dachaId: id } })));
                 ctx.session.dacha = [];
                 ctx.reply("✅ Yangi ma'lumotlar saqlandi 🎉");
             }
             else {
-                ctx.reply("ℹ️ Bu dacha allaqachon tanlangan!");
+                ctx.reply('ℹ️ Bu dacha allaqachon tanlangan!');
             }
         }
         catch (error) {
@@ -437,16 +438,16 @@ let BotService = class BotService {
                 await ctx.reply('🤷‍♂️ Bugun uchun hech qanday dacha tanlanmagan.');
                 return;
             }
-            const dachaIds = bugungiDachalar.map(item => item.dachaId);
+            const dachaIds = bugungiDachalar.map((item) => item.dachaId);
             const dachalar = await this.prisma.dacha.findMany({
                 where: { id: { in: dachaIds } },
             });
             if (!dachalar.length) {
-                await ctx.reply("🛑 Tanlangan dachalar topilmadi.");
+                await ctx.reply('🛑 Tanlangan dachalar topilmadi.');
                 return;
             }
-            const buttons = dachalar.map(dacha => [
-                telegraf_1.Markup.button.callback(`🗑 ${dacha.name || 'Noma\'lum'}`, `UU:${dacha.id}`)
+            const buttons = dachalar.map((dacha) => [
+                telegraf_1.Markup.button.callback(`🗑 ${dacha.name || "Noma'lum"}`, `UU:${dacha.id}`),
             ]);
             await ctx.reply("🗑 O'chirish uchun saralangan dacha tanlang:", telegraf_1.Markup.inlineKeyboard(buttons));
         }
