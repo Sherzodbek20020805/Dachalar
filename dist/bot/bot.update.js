@@ -43,17 +43,17 @@ let BotUpdate = class BotUpdate {
             ]).resize());
         }
         else {
-            await ctx.reply(`Siz asosiy sahifaga o'tdingiz`, telegraf_1.Markup.keyboard([['reyting qoldirish', `dachalarni ko'rish`]]).resize());
+            await ctx.reply(`Siz asosiy sahifaga o'tdingiz`, telegraf_1.Markup.keyboard([['reyting qoldirish', `Dachalarni ko'rish`]]).resize());
             return;
         }
     }
     async OnOrqaga(ctx) {
-        const asosiyMenu = telegraf_1.Markup.keyboard([
+        const asosiydacha = telegraf_1.Markup.keyboard([
             ['Reyting', 'Kunlik foydalanuvchilar', 'dacha'],
         ]).resize();
         if (ctx.session.stepAdmin === 'dacha') {
             ctx.session.stepAdmin = 'Asosiy';
-            ctx.reply(`Siz asosiy sahifaga o'tdingiz`, asosiyMenu);
+            ctx.reply(`Siz asosiy sahifaga o'tdingiz`, asosiydacha);
             return;
         }
         else if (ctx.session.stepAdmin === 'Asosiy') {
@@ -62,19 +62,19 @@ let BotUpdate = class BotUpdate {
         }
         else if (ctx.session.stepAdmin === 'Reyting') {
             ctx.session.stepAdmin = 'Asosiy';
-            ctx.reply(`Siz asosiy sahifaga o'tdingiz`, asosiyMenu);
+            ctx.reply(`Siz asosiy sahifaga o'tdingiz`, asosiydacha);
             return;
         }
         else if (ctx.session.stepAdmin === 'Kunlik_foydalanuvchilar') {
             ctx.session.stepAdmin = 'Asosiy';
-            ctx.reply(`Siz asosiy sahifaga o'tdingiz`, asosiyMenu);
+            ctx.reply(`Siz asosiy sahifaga o'tdingiz`, asosiydacha);
             return;
         }
         else if (ctx.session.stepAdmin === 'bugun') {
             ctx.session.SS = null;
             ctx.session.stepAdmin = 'dacha';
             await ctx.reply(`dacha`, telegraf_1.Markup.keyboard([['Asosiy sahifa', 'Ortga']]).resize());
-            return this.botService.onAdmineditdacha(ctx);
+            return this.botService.onAdmineditDacha(ctx);
         }
         else if (ctx.session.name === 'name') {
             ctx.session.name = null;
@@ -83,7 +83,7 @@ let BotUpdate = class BotUpdate {
             ctx.session.image = null;
             ctx.session.stepAdmin = 'dacha';
             await ctx.reply(`dacha`, telegraf_1.Markup.keyboard([['Asosiy sahifa', 'Ortga']]).resize());
-            return this.botService.onAdmineditdacha(ctx);
+            return this.botService.onAdmineditDacha(ctx);
         }
         else if (ctx.session.price === 'price') {
             ctx.session.price = null;
@@ -109,34 +109,34 @@ let BotUpdate = class BotUpdate {
         else if (ctx.session.stepAdmin === 'Creyt') {
             ctx.session.stepAdmin = 'dacha';
             await ctx.reply(`dacha`, telegraf_1.Markup.keyboard([['Asosiy sahifa', 'Ortga']]).resize());
-            return this.botService.onAdmineditdacha(ctx);
+            return this.botService.onAdmineditDacha(ctx);
         }
         else if (ctx.session.stepAdmin === 'FindAll') {
             ctx.session.stepAdmin = 'dacha';
             await ctx.reply(`dacha`, telegraf_1.Markup.keyboard([['Asosiy sahifa', 'Ortga']]).resize());
-            return this.botService.onAdmineditdacha(ctx);
+            return this.botService.onAdmineditDacha(ctx);
         }
         else if (ctx.session.stepAdmin === 'Delet') {
             ctx.session.stepAdmin = 'dacha';
             await ctx.reply(`dacha`, telegraf_1.Markup.keyboard([['Asosiy sahifa', 'Ortga']]).resize());
-            return this.botService.onAdmineditdacha(ctx);
+            return this.botService.onAdmineditDacha(ctx);
         }
         else {
             if (ctx.from?.id == ChatID_1 || ctx.from?.id == ChatID_2) {
                 ctx.session.stepAdmin = 'Asosiy';
-                ctx.reply('Uzoq vaqt foydalatilmagani sababli asosiy dachaga qaytildi', asosiyMenu);
+                ctx.reply('Uzoq vaqt foydalatilmagani sababli asosiy dachaga qaytildi', asosiydacha);
                 return;
             }
             else {
                 if (ctx.session.stepUser == 'dacha') {
                     await ctx.reply(`Asosiy dachadasiz`, telegraf_1.Markup.keyboard([
-                        ['📊 reyting qoldirish', `📖 dachalarni ko'rish`, '🙋🏼‍♂️ Help'],
+                        ['📊 reyting qoldirish', `🏕️ Dachalarni ko'rish`, '🙋🏼‍♂️ Help'],
                     ]).resize());
                 }
                 else {
                     ctx.session.stepUser = 'dacha';
                     await ctx.reply(`Uzoq vaqt foydalatilmagani sababli asosiy dachaga qaytildi`, telegraf_1.Markup.keyboard([
-                        ['📊 reyting qoldirish', `📖 dachalarni ko'rish`, '🙋🏼‍♂️ Help'],
+                        ['📊 reyting qoldirish', `🏕️ Dachalarni ko'rish`, '🙋🏼‍♂️ Help'],
                     ]).resize());
                 }
             }
@@ -146,7 +146,7 @@ let BotUpdate = class BotUpdate {
         if (ctx.from?.id == ChatID_1 || ctx.from?.id == ChatID_2) {
             ctx.session.stepAdmin = 'dacha';
             await ctx.reply(`dacha`, telegraf_1.Markup.keyboard([['Asosiy sahifa', 'Ortga']]).resize());
-            return this.botService.onAdmineditdacha(ctx);
+            return this.botService.onAdmineditDacha(ctx);
         }
         else {
             ctx.reply("Siz admin paneliga o'taolmaysiz");
@@ -160,16 +160,16 @@ let BotUpdate = class BotUpdate {
             return this.botService.findAll(ctx);
         }
     }
-    Ondachaler(ctx) {
+    async onDachalar(ctx) {
         ctx.session.stepUser = 'dacha';
-        ctx.reply(`Menuylar`, telegraf_1.Markup.keyboard([['🔙 ortga', "🍱 Bugun qilinadigan ovqatlar"]]).resize());
+        ctx.reply(`dachaylar`, telegraf_1.Markup.keyboard([['🔙 ortga', "🍱 Bugun qoyilgan Dachalar"]]).resize());
         return this.botService.findAll(ctx);
     }
     async onOnqatlar(ctx) {
         try {
             const bugun = await this.prisma.bugun.findMany();
             if (!bugun.length) {
-                await ctx.reply('🤷‍♂️ Bugun qilinadigan ovqatlar elon qilinmagan!');
+                await ctx.reply('🤷‍♂️ Bugun qoyilgan Dachalar elon qilinmagan!');
                 return;
             }
             for (const item of bugun) {
@@ -178,7 +178,7 @@ let BotUpdate = class BotUpdate {
                 });
                 if (!dacha)
                     continue;
-                const text = `🍽 <b>${dacha.name || "Noma'lum ovqat"}</b>\n\n` +
+                const text = `🏕️ <b>${dacha.name || "Noma'lum dacha"}</b>\n\n` +
                     `⭐ Reyting: ${dacha.avg_reytig ?? 0}\n\n` +
                     `💰 Narxi: ${dacha.price || "Noma'lum"} so'm\n\n` +
                     `📝 ${dacha.description || 'Tavsif mavjud emas.'}\n\n` +
@@ -209,18 +209,18 @@ let BotUpdate = class BotUpdate {
             ctx.reply("🚫 Bunday buyruq mavjud emas");
         }
     }
-    onMenue(ctx) {
+    ondachae(ctx) {
         if (ctx.from?.id == ChatID_1 || ctx.from?.id == ChatID_2) {
             ctx.session.stepAdmin = 'dacha';
             ctx.reply(`Siz asosiy sahifaga o'tdingiz`, telegraf_1.Markup.keyboard([
                 ['Reyting', 'Kunlik foydalanuvchilar', 'dacha'],
             ]).resize());
-            return this.botService.onAdmineditdacha(ctx);
+            return this.botService.onAdmineditDacha(ctx);
         }
         else {
             ctx.session.stepUser = 'dacha';
             ctx.reply(`Siz asosiy sahifaga o'tdingiz`, telegraf_1.Markup.keyboard([
-                ['📊 reyting qoldirish', `📖 dachalarni ko'rish`, '🙋🏼‍♂️ Help'],
+                ['📊 reyting qoldirish', `🏕️ Dachalarni ko'rish`, '🙋🏼‍♂️ Help'],
             ]).resize());
             return this.botService.findAll(ctx);
         }
@@ -233,7 +233,7 @@ let BotUpdate = class BotUpdate {
         }
         else {
             ctx.reply(`O'z haqingizda maluot`, telegraf_1.Markup.keyboard([
-                ['📊 reyting qoldirish', `📖 dachalarni ko'rish`, '🙋🏼‍♂️ Help'],
+                ['📊 reyting qoldirish', `🏕️ Dachalarni ko'rish`, '🙋🏼‍♂️ Help'],
             ]).resize());
         }
         return this.botService.onInfo(ctx);
@@ -247,7 +247,7 @@ let BotUpdate = class BotUpdate {
         }
         else {
             ctx.reply(`Yordam bo'limi`, telegraf_1.Markup.keyboard([
-                ['📊 reyting qoldirish', `📖 dachalarni ko'rish`, '🙋🏼‍♂️ Help'],
+                ['📊 reyting qoldirish', `🏕️ Dachalarni ko'rish`, '🙋🏼‍♂️ Help'],
             ]).resize());
             return this.botService.onhelp(ctx);
         }
@@ -255,11 +255,11 @@ let BotUpdate = class BotUpdate {
     Ortga(ctx) {
         if (ctx.from?.id == ChatID_1 || ctx.from?.id == ChatID_2) {
             ctx.session.stepAdmin = 'dacha';
-            return this.botService.onAdmineditdacha(ctx);
+            return this.botService.onAdmineditDacha(ctx);
         }
         else {
             ctx.reply(`Siz asosiy sahifaga o'tdingiz`, telegraf_1.Markup.keyboard([
-                ['📊 reyting qoldirish', `📖 dachalarni ko'rish`, '🙋🏼‍♂️ Help'],
+                ['📊 reyting qoldirish', `🏕️ Dachalarni ko'rish`, '🙋🏼‍♂️ Help'],
             ]).resize());
         }
     }
@@ -305,31 +305,31 @@ let BotUpdate = class BotUpdate {
             return;
         }
     }
-    async deleteMenu(ctx) {
+    async deletedacha(ctx) {
         try {
             const id = parseInt(ctx.match[1]);
-            const menu = await this.prisma.dacha.findUnique({ where: { id } });
-            if (!menu) {
+            const dacha = await this.prisma.dacha.findUnique({ where: { id } });
+            if (!dacha) {
                 ctx.reply('❌ Bu dacha topilmadi.');
                 return;
             }
             await this.prisma.dacha.delete({ where: { id } });
             await ctx.answerCbQuery();
-            await ctx.reply(`✅ ${menu.name} nomli tavom o'chirildi.`);
+            await ctx.reply(`✅ ${dacha.name} nomli tavom o'chirildi.`);
         }
         catch (err) {
             await ctx.reply('❌ Xatolik yuz berdi.');
         }
     }
-    async deleteOvqat(ctx) {
+    async deleteBugunDacha(ctx) {
         const id = Number(ctx.match[1]);
         await this.prisma.bugun.deleteMany({
             where: { dachaId: id },
         });
-        await ctx.answerCbQuery(`❌ Ovqat o'chirildi`);
+        await ctx.answerCbQuery(`❌ dacha o'chirildi`);
         await ctx.editMessageReplyMarkup(undefined);
     }
-    async saveMenu(ctx) {
+    async savedacha(ctx) {
         try {
             const data = ctx.session.data;
             if (!data?.name || !data?.price || !data?.description || !data?.image) {
@@ -337,7 +337,7 @@ let BotUpdate = class BotUpdate {
                 return;
             }
             const yangi = await this.prisma.dacha.create({ data });
-            await ctx.editMessageCaption?.(`✅ Saqlandi!\n🍽 <b>${data.name}</b>\n💰 ${data.price} so'm\n📝 ${data.description}`, {
+            await ctx.editMessageCaption?.(`✅ Saqlandi!\n🏕️ <b>${data.name}</b>\n💰 ${data.price} so'm\n📝 ${data.description}`, {
                 parse_mode: 'HTML',
             });
             ctx.session.data = null;
@@ -354,7 +354,7 @@ let BotUpdate = class BotUpdate {
         ctx.session.image = null;
         ctx.session.stepAdmin = 'dacha';
         ctx.reply('❌ Saqlash bekor qilindi');
-        return this.botService.onAdmineditdacha(ctx);
+        return this.botService.onAdmineditDacha(ctx);
     }
     async bugun(ctx) {
         ctx.answerCbQuery();
@@ -362,11 +362,11 @@ let BotUpdate = class BotUpdate {
     }
     async Bugungi(ctx) {
         if (ctx.session.SS == 'ss') {
-            ctx.session.ovqatlar ??= [];
+            ctx.session.dachalar ??= [];
             ctx.answerCbQuery();
             try {
                 let id = parseInt(ctx.match[1]);
-                ctx.session.ovqatlar.push(id);
+                ctx.session.dachalar.push(id);
             }
             catch (error) {
                 console.log(error);
@@ -375,10 +375,10 @@ let BotUpdate = class BotUpdate {
         }
     }
     Onsaqlash(ctx) {
-        ctx.session.ovqatlar ??= [];
+        ctx.session.dachalar ??= [];
         if (ctx.session.SS == 'ss') {
             ctx.session.SS = null;
-            if (ctx.session.ovqatlar.length !== 0) {
+            if (ctx.session.dachalar.length !== 0) {
                 return this.botService.Saqlash(ctx);
             }
             else {
@@ -390,7 +390,7 @@ let BotUpdate = class BotUpdate {
         try {
             const bugun = await this.prisma.bugun.findMany();
             if (!bugun.length) {
-                await ctx.reply('🤷‍♂️ Bugun qilinadigan ovqatlar tanlanmagan!');
+                await ctx.reply('🤷‍♂️ Bugun qoyilgan Dachalar tanlanmagan!');
                 return;
             }
             for (const item of bugun) {
@@ -399,7 +399,7 @@ let BotUpdate = class BotUpdate {
                 });
                 if (!dacha)
                     continue;
-                const text = `🍽 <b>${dacha.name || "Noma'lum ovqat"}</b>\n\n` +
+                const text = `🏕️ <b>${dacha.name || "Noma'lum dacha"}</b>\n\n` +
                     `⭐ Reyting: ${dacha.avg_reytig ?? 0}\n\n` +
                     `💰 Narxi: ${dacha.price || "Noma'lum"} so'm\n\n` +
                     `📝 ${dacha.description || 'Tavsif mavjud emas.'}\n\n` +
@@ -426,7 +426,7 @@ let BotUpdate = class BotUpdate {
     async onReytingUser(ctx) {
         ctx.session.stepUser = 'reyting';
         await ctx.reply(`dacha`, telegraf_1.Markup.keyboard([['🔙 ortga']]).resize());
-        return this.botService.onUserAlldacha(ctx);
+        return this.botService.onUserAllDacha(ctx);
     }
     onOrtga(ctx) {
         return this.botService.onOrtga(ctx);
@@ -442,12 +442,12 @@ let BotUpdate = class BotUpdate {
     text(ctx) {
         return this.botService.textmessage(ctx);
     }
-    async ortgamenu(ctx) {
+    async ortgadacha(ctx) {
         await ctx.reply(`Asosiy dachaga o'tdingiz`, telegraf_1.Markup.keyboard([
-            ['📊 reyting qoldirish', `📖 dachalarni ko'rish`, '🙋🏼‍♂️ Help'],
+            ['📊 reyting qoldirish', `🏕️ Dachalarni ko'rish`, '🙋🏼‍♂️ Help'],
         ]).resize());
     }
-    async handleMenuSelection(ctx) {
+    async handledachaSelection(ctx) {
         const dachaName = ctx.match[0].split(':')[1];
         const dacha = await this.prisma.dacha.findFirst({
             where: { name: { equals: dachaName, mode: 'insensitive' } },
@@ -456,7 +456,7 @@ let BotUpdate = class BotUpdate {
             ctx.reply(`❌ ${dachaName} dachasi topilmadi.`);
             return;
         }
-        ctx.session.menuName = dacha.name.toLowerCase();
+        ctx.session.dachaName = dacha.name.toLowerCase();
         return this.botService.sendReytingPrompt(ctx, dacha.name);
     }
     async Reyting(ctx) {
@@ -469,34 +469,34 @@ let BotUpdate = class BotUpdate {
             ctx.reply('❌ Foydalanuvchi topilmadi.');
             return;
         }
-        const menuName = ctx.session.menuName;
-        if (!menuName) {
+        const dachaName = ctx.session.dachaName;
+        if (!dachaName) {
             ctx.reply('❌ Avval dachani tanlang.');
             return;
         }
-        const menu = await this.prisma.dacha.findFirst({
-            where: { name: { equals: menuName, mode: 'insensitive' } },
+        const dacha = await this.prisma.dacha.findFirst({
+            where: { name: { equals: dachaName, mode: 'insensitive' } },
         });
-        if (!menu) {
-            ctx.reply(`❌ ${menuName} dachasi topilmadi.`);
+        if (!dacha) {
+            ctx.reply(`❌ ${dachaName} dachasi topilmadi.`);
             return;
         }
         const existing = await this.prisma.reyting.findFirst({
-            where: { user_id: user.id, dacha_id: menu.id },
+            where: { user_id: user.id, dacha_id: dacha.id },
         });
         if (existing) {
-            ctx.reply(`❌ Siz "${menu.name}" uchun allaqachon reyting qoldirgansiz.`);
+            ctx.reply(`❌ Siz "${dacha.name}" uchun allaqachon reyting qoldirgansiz.`);
             return;
         }
         await this.prisma.reyting.create({
             data: {
                 user_id: user.id,
-                dacha_id: menu.id,
+                dacha_id: dacha.id,
                 ball: +reyting,
             },
         });
-        ctx.session.menuName = null;
-        ctx.reply(`✅ "${menu.name}" uchun ${reyting} ball berildi`);
+        ctx.session.dachaName = '';
+        ctx.reply(`✅ "${dacha.name}" uchun ${reyting} ball berildi`);
     }
 };
 exports.BotUpdate = BotUpdate;
@@ -536,14 +536,14 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], BotUpdate.prototype, "OnReyting", null);
 __decorate([
-    (0, nestjs_telegraf_1.Hears)("📖 dachalarni ko'rish"),
+    (0, nestjs_telegraf_1.Hears)("🏕️ Dachalarni ko'rish"),
     __param(0, (0, nestjs_telegraf_1.Ctx)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", void 0)
-], BotUpdate.prototype, "Ondachaler", null);
+    __metadata("design:returntype", Promise)
+], BotUpdate.prototype, "onDachalar", null);
 __decorate([
-    (0, nestjs_telegraf_1.Hears)("🍱 Bugun qilinadigan ovqatlar"),
+    (0, nestjs_telegraf_1.Hears)("🍱 Bugun qoyilgan Dachalar"),
     __param(0, (0, nestjs_telegraf_1.Ctx)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
@@ -562,7 +562,7 @@ __decorate([
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
-], BotUpdate.prototype, "onMenue", null);
+], BotUpdate.prototype, "ondachae", null);
 __decorate([
     (0, nestjs_telegraf_1.Command)('info'),
     __param(0, (0, nestjs_telegraf_1.Ctx)()),
@@ -618,21 +618,21 @@ __decorate([
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
-], BotUpdate.prototype, "deleteMenu", null);
+], BotUpdate.prototype, "deletedacha", null);
 __decorate([
     (0, nestjs_telegraf_1.Action)(/^UU:(\d+)$/),
     __param(0, (0, nestjs_telegraf_1.Ctx)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
-], BotUpdate.prototype, "deleteOvqat", null);
+], BotUpdate.prototype, "deleteBugunDacha", null);
 __decorate([
-    (0, nestjs_telegraf_1.Action)('save_menu'),
+    (0, nestjs_telegraf_1.Action)('save_dacha'),
     __param(0, (0, nestjs_telegraf_1.Ctx)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
-], BotUpdate.prototype, "saveMenu", null);
+], BotUpdate.prototype, "savedacha", null);
 __decorate([
     (0, nestjs_telegraf_1.Action)('cancel_save'),
     __param(0, (0, nestjs_telegraf_1.Ctx)()),
@@ -662,7 +662,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], BotUpdate.prototype, "Onsaqlash", null);
 __decorate([
-    (0, nestjs_telegraf_1.Hears)("💎 Saralangan ovqatlar"),
+    (0, nestjs_telegraf_1.Hears)("💎 Saralangan dachalar"),
     __param(0, (0, nestjs_telegraf_1.Ctx)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
@@ -709,14 +709,14 @@ __decorate([
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
-], BotUpdate.prototype, "ortgamenu", null);
+], BotUpdate.prototype, "ortgadacha", null);
 __decorate([
-    (0, nestjs_telegraf_1.Action)(/^menu:.+/),
+    (0, nestjs_telegraf_1.Action)(/^dacha:.+/),
     __param(0, (0, nestjs_telegraf_1.Ctx)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
-], BotUpdate.prototype, "handleMenuSelection", null);
+], BotUpdate.prototype, "handledachaSelection", null);
 __decorate([
     (0, nestjs_telegraf_1.Action)(/^reyting:\d$/),
     __param(0, (0, nestjs_telegraf_1.Ctx)()),

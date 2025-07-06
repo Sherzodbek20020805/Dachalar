@@ -1,6 +1,7 @@
 import { Context } from "telegraf";
 
 export interface ISessin {
+  dachaName: string;
   dachalar: any;
   dacha: never[];
   price: string | null;

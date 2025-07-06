@@ -1,5 +1,8 @@
 import { Context } from "telegraf";
 export interface ISessin {
+    dachaName: string;
+    dachalar: any;
+    dacha: never[];
     price: string | null;
     name: string | null;
     description: string | null;
@@ -8,7 +11,7 @@ export interface ISessin {
     stepAdmin?: string;
     stepUser?: string;
     menuName?: string | null;
-    ovqatlar: number[];
+    dachaqlar: number[];
     SS: string | null;
     data: {
         name?: string | null;

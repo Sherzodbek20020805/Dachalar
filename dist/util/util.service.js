@@ -24,7 +24,7 @@ let UtilService = class UtilService {
     async onModuleInit() {
         await this.Bot.telegram.setMyCommands([
             { command: '/start', description: 'Botni boshlash' },
-            { command: '/menyu', description: "Menyuga o'tish" },
+            { command: '/dacha', description: "Dachaga o'tish" },
             { command: '/info', description: "O'zingiz haqingizda ma'lumot" },
             { command: '/help', description: 'Yordam olish' },
         ]);

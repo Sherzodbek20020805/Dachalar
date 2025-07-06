@@ -20,6 +20,7 @@ model Dacha {
   price       Int?
   description String?
   image       String?
+  location    String?
   Reyting     Reyting[]
 }
 

@@ -51,23 +51,23 @@ export class BotUpdate {
   }
   @Hears('Ortga')
   async OnOrqaga(@Ctx() ctx: IMyContext) {
-    const asosiyMenu = Markup.keyboard([
+    const asosiydacha = Markup.keyboard([
       ['Reyting', 'Kunlik foydalanuvchilar', 'dacha'],
     ]).resize();
     if (ctx.session.stepAdmin === 'dacha') {
       ctx.session.stepAdmin = 'Asosiy';
-      ctx.reply(`Siz asosiy sahifaga o'tdingiz`, asosiyMenu);
+      ctx.reply(`Siz asosiy sahifaga o'tdingiz`, asosiydacha);
       return;
     } else if (ctx.session.stepAdmin === 'Asosiy') {
       ctx.reply('Siz bosh sahifadasiz');
       return;
     } else if (ctx.session.stepAdmin === 'Reyting') {
       ctx.session.stepAdmin = 'Asosiy';
-      ctx.reply(`Siz asosiy sahifaga o'tdingiz`, asosiyMenu);
+      ctx.reply(`Siz asosiy sahifaga o'tdingiz`, asosiydacha);
       return;
     } else if (ctx.session.stepAdmin === 'Kunlik_foydalanuvchilar') {
       ctx.session.stepAdmin = 'Asosiy';
-      ctx.reply(`Siz asosiy sahifaga o'tdingiz`, asosiyMenu);
+      ctx.reply(`Siz asosiy sahifaga o'tdingiz`, asosiydacha);
       return;
     } else if (ctx.session.stepAdmin === 'bugun') {
       ctx.session.SS = null;
@@ -132,7 +132,7 @@ export class BotUpdate {
         ctx.session.stepAdmin = 'Asosiy';
         ctx.reply(
           'Uzoq vaqt foydalatilmagani sababli asosiy dachaga qaytildi',
-          asosiyMenu,
+          asosiydacha,
         );
         return;
       } else {
@@ -182,11 +182,11 @@ export class BotUpdate {
       return this.botService.findAll(ctx);
     }
   }
-  @Hears("🏕️ Dachalarni ko'rish")
+  
   @Hears("🏕️ Dachalarni ko'rish")
   async onDachalar(@Ctx() ctx: IMyContext) {
     ctx.session.stepUser = 'dacha';
-    ctx.reply(`Menuylar`, Markup.keyboard([['🔙 ortga',"🍱 Bugun qoyilgan Dachalar"]]).resize());
+    ctx.reply(`dachaylar`, Markup.keyboard([['🔙 ortga',"🍱 Bugun qoyilgan Dachalar"]]).resize());
     return this.botService.findAll(ctx);
   }
 
@@ -242,7 +242,7 @@ export class BotUpdate {
   }
 
   @Command('dacha')
-  onMenue(@Ctx() ctx: IMyContext) {
+  ondachae(@Ctx() ctx: IMyContext) {
     if (ctx.from?.id == ChatID_1 || ctx.from?.id == ChatID_2) {
       ctx.session.stepAdmin = 'dacha';
       ctx.reply(
@@ -370,13 +370,13 @@ export class BotUpdate {
     }
   }
   @Action(/del:(\d+)/)
-  async deleteMenu(@Ctx() ctx: IMyContext) {
+  async deletedacha(@Ctx() ctx: IMyContext) {
     try {
       const id = parseInt(ctx.match[1]);
 
-      const menu = await this.prisma.dacha.findUnique({ where: { id } });
+      const dacha = await this.prisma.dacha.findUnique({ where: { id } });
 
-      if (!menu) {
+      if (!dacha) {
         ctx.reply('❌ Bu dacha topilmadi.');
         return;
       }
@@ -384,13 +384,13 @@ export class BotUpdate {
       await this.prisma.dacha.delete({ where: { id } });
 
       await ctx.answerCbQuery();
-      await ctx.reply(`✅ ${menu.name} nomli tavom o'chirildi.`);
+      await ctx.reply(`✅ ${dacha.name} nomli tavom o'chirildi.`);
     } catch (err) {
       await ctx.reply('❌ Xatolik yuz berdi.');
     }
   }
   @Action(/^UU:(\d+)$/)
-  async deletedacha(@Ctx() ctx: IMyContext) {
+  async deleteBugunDacha(@Ctx() ctx: IMyContext) {
     const id = Number(ctx.match[1]);
 
     await this.prisma.bugun.deleteMany({
@@ -401,8 +401,8 @@ export class BotUpdate {
     await ctx.editMessageReplyMarkup(undefined);
   }
 
-  @Action('save_menu')
-  async saveMenu(@Ctx() ctx: IMyContext) {
+  @Action('save_dacha')
+  async savedacha(@Ctx() ctx: IMyContext) {
     try {
       const data = ctx.session.data;
       if (!data?.name || !data?.price || !data?.description || !data?.image) {
@@ -544,7 +544,7 @@ export class BotUpdate {
   }
 
   @Action('ortga')
-  async ortgamenu(@Ctx() ctx: IMyContext) {
+  async ortgadacha(@Ctx() ctx: IMyContext) {
     await ctx.reply(
       `Asosiy dachaga o'tdingiz`,
       Markup.keyboard([
@@ -553,8 +553,8 @@ export class BotUpdate {
     );
   }
 
-  @Action(/^menu:.+/)
-  async handleMenuSelection(@Ctx() ctx: IMyContext) {
+  @Action(/^dacha:.+/)
+  async handledachaSelection(@Ctx() ctx: IMyContext) {
     const dachaName = ctx.match[0].split(':')[1];
 
     const dacha = await this.prisma.dacha.findFirst({
@@ -566,7 +566,7 @@ export class BotUpdate {
       return;
     }
 
-    ctx.session.menuName = dacha.name!.toLowerCase();
+    ctx.session.dachaName = dacha.name!.toLowerCase();
 
     return this.botService.sendReytingPrompt(ctx, dacha.name!);
   }
@@ -586,41 +586,41 @@ export class BotUpdate {
       return;
     }
 
-    const menuName = ctx.session.menuName;
+    const dachaName = ctx.session.dachaName;
 
-    if (!menuName) {
+    if (!dachaName) {
       ctx.reply('❌ Avval dachani tanlang.');
       return;
     }
 
-    const menu = await this.prisma.dacha.findFirst({
-      where: { name: { equals: menuName, mode: 'insensitive' } },
+    const dacha = await this.prisma.dacha.findFirst({
+      where: { name: { equals: dachaName, mode: 'insensitive' } },
     });
 
-    if (!menu) {
-      ctx.reply(`❌ ${menuName} dachasi topilmadi.`);
+    if (!dacha) {
+      ctx.reply(`❌ ${dachaName} dachasi topilmadi.`);
       return;
     }
 
     const existing = await this.prisma.reyting.findFirst({
-      where: { user_id: user.id, dacha_id: menu.id },
+      where: { user_id: user.id, dacha_id: dacha.id },
     });
 
     if (existing) {
-      ctx.reply(`❌ Siz "${menu.name}" uchun allaqachon reyting qoldirgansiz.`);
+      ctx.reply(`❌ Siz "${dacha.name}" uchun allaqachon reyting qoldirgansiz.`);
       return;
     }
 
     await this.prisma.reyting.create({
       data: {
         user_id: user.id,
-        dacha_id: menu.id,
+        dacha_id: dacha.id,
         ball: +reyting,
       },
     });
 
-    ctx.session.menuName = null;
+    ctx.session.dachaName = '';
 
-    ctx.reply(`✅ "${menu.name}" uchun ${reyting} ball berildi`);
+    ctx.reply(`✅ "${dacha.name}" uchun ${reyting} ball berildi`);
   }
 }

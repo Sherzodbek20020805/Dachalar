@@ -15,6 +15,9 @@ const prisma_service_1 = require("../prisma/prisma.service");
 const telegraf_1 = require("telegraf");
 let BotService = class BotService {
     prisma;
+    onAdmineditDacha(ctx) {
+        throw new Error('Method not implemented.');
+    }
     constructor(prisma) {
         this.prisma = prisma;
     }
@@ -30,7 +33,7 @@ let BotService = class BotService {
             return;
         }
     }
-    async onAdmineditMenyu(ctx) {
+    async onAdmineditDach(ctx) {
         try {
             ctx.session.data = null;
             ctx.session.id = null;
@@ -38,7 +41,7 @@ let BotService = class BotService {
             ctx.session.description = null;
             await ctx.reply('Mahsulodlarni boshqarish', telegraf_1.Markup.inlineKeyboard([
                 [telegraf_1.Markup.button.callback(`Dachalarni ko'rish`, `findAll`)],
-                [telegraf_1.Markup.button.callback(`Yangi Ovqat qo'shish`, `Create`)],
+                [telegraf_1.Markup.button.callback(`Yangi Dacha qo'shish`, `Create`)],
                 [telegraf_1.Markup.button.callback(`Dachalarni o'chirish`, `Delete`)],
                 [telegraf_1.Markup.button.callback(`Bugun qoshilgan Dachalar`, "Bugun")]
             ]));
@@ -77,7 +80,7 @@ let BotService = class BotService {
     }
     async create(ctx) {
         try {
-            await ctx.reply('Mahsulot nomini kiriting: ');
+            await ctx.reply('Dacha nomini kiriting: ');
             ctx.session.name = 'name';
         }
         catch (error) {
@@ -102,23 +105,23 @@ let BotService = class BotService {
             return;
         }
     }
-    async onUserAllMenyu(ctx) {
+    async onUserAllDacha(ctx) {
         ctx.session.id = null;
         ctx.session.image = null;
         ctx.session.description = null;
         try {
-            const menyular = await this.prisma.menyu.findMany({
+            const dachalar = await this.prisma.dacha.findMany({
                 orderBy: { id: 'asc' },
             });
-            if (!menyular.length) {
-                ctx.reply('🛑 Hozircha xech qanday menyu mavjud eman.');
+            if (!dachalar.length) {
+                ctx.reply('🛑 Hozircha xech qanday dacha mavjud emas.');
                 return;
             }
-            const buttonlar = menyular.map((menu) => [
-                telegraf_1.Markup.button.callback(menu.name, `menu:${menu.name.toLowerCase()}`),
+            const buttonlar = dachalar.map((dacha) => [
+                telegraf_1.Markup.button.callback(dacha.name, `dacha:${dacha.name.toLowerCase()}`),
             ]);
             buttonlar.push([telegraf_1.Markup.button.callback('Ortga', 'ortga')]);
-            await ctx.reply(`Ushbu menyulardan birini tanlang 👇`, telegraf_1.Markup.inlineKeyboard(buttonlar));
+            await ctx.reply(`Ushbu dacha birini tanlang 👇`, telegraf_1.Markup.inlineKeyboard(buttonlar));
         }
         catch (error) {
             console.error(error);
@@ -134,7 +137,7 @@ let BotService = class BotService {
     Assalomu alaykum! ${ctx.from?.first_name || 'Hurmatli foydalanuvchi'}   Bu bot orqali siz damolish maskanlribilan  tanishishingiz va ularga baho berishingiz mumkin.\n
     🧾 <b>Bot imkoniyatlari:</b>
     
-    🍽 <b>Dachalar ro'yxati</b> - mavjud barcha dachalarni rasm, narx va tavsifi bilan ko'rishingiz mumkin.
+    🏕️ <b>Dachalar ro'yxati</b> - mavjud barcha dachalarni rasm, narx va tavsifi bilan ko'rishingiz mumkin.
     
     ⭐️ <b>Reyting berish</b> - har bir taomga 1 dan 5 gacha baho berishingiz mumkin.
     
@@ -142,7 +145,7 @@ let BotService = class BotService {
     
     ❓ <b>Yordam</b> - ushbu bo'lim orqali botdan qanday foydalanishni bilib olasiz.
     
-    Agar sizda savollar bo'lsa, admin bilan bog'laning: @sherzodbek311 Yoki  @lm_faxa
+    Agar sizda savollar bo'lsa, admin bilan bog'laning: @sherzodbek311
     
     `, { parse_mode: 'HTML' });
     }
@@ -154,13 +157,13 @@ let BotService = class BotService {
         await ctx.reply(`📋 <b>Admin Yordam Bo'limi</b>\n
     Assalomu alaykum, ${ctx.from?.first_name || 'Hurmatli foydalanuvchi'}!\n
     Siz admin sifatida quyidagi imkoniyatlarga egasiz:
-    
-    👨‍🍳 <b>Yangi ovqat qo'shish:</b> menyuga yangi Dacha, ularning nomi, narxi, tavsifi va rasm bilan qo'shishingiz mumkin.
-    
-    🗑 <b>Ovqatni o'chirish:</b> mavjud menyudan istalgan taomni o'chirishingiz mumkin.
-    
-    📋 <b>Menyu ro'yxatini ko'rish:</b> barcha mavjud Dachani to'liq ro'yxati bilan ko'rishingiz mumkin.
-    
+
+    🏕️ <b>Yangi dacha qo'shish:</b> menyuga yangi Dacha, ularning nomi, narxi, tavsifi va rasm bilan qo'shishingiz mumkin.
+
+    🗑 <b>Dachani o'chirish:</b> mavjud menyudan istalgan Dacha o'chirishingiz mumkin.
+
+    📋 <b>Menyu ro'yxatini ko'rish:</b> barcha mavjud Dachalarni to'liq ro'yxati bilan ko'rishingiz mumkin.
+
     📊 <b>Reyting statistikasi:</b> foydalanuvchilar tomonidan eng ko'p baho berilgan Dachani ko'rib, oshxonada shu taomni tayyorlash haqida qaror qabul qilishingiz mumkin.
     
     🛠 <b>To'liq nazorat:</b> foydalanuvchilar faoliyati, reytinglar va Dacha haqida umumiy nazoratga egasiz.
@@ -183,7 +186,7 @@ let BotService = class BotService {
                 return;
             }
             if ((ctx.session.stepUser = 'Tavom')) {
-                return this.onUserAllMenyu(ctx);
+                return this.onUserAllDacha(ctx);
             }
         }
         catch (error) {
@@ -193,15 +196,15 @@ let BotService = class BotService {
     async onreyting(ctx) {
         try {
             ctx.session.stepUser = 'reyting';
-            const menyular = await this.prisma.menyu.findMany({
+            const dachalar = await this.prisma.dacha.findMany({
                 orderBy: { avg_reytig: 'desc' },
             });
-            if (!menyular.length) {
+            if (!dachalar.length) {
                 await ctx.reply('🛑 Hozircha Dachalar mavjud emas.');
                 return;
             }
-            for (const item of menyular) {
-                const caption = `🍽 <b>${item.name}</b>\n\n💰 Narxi: ${item.price} so'm\n\n📝 Tavsif: ${item.description}\n\n📈 reyting: ${item.avg_reytig}\n\n🆔 ID: ${item.id}`;
+            for (const item of dachalar) {
+                const caption = `🏕️ <b>${item.name}</b>\n\n💰 Narxi: ${item.price} so'm\n\n📝 Tavsif: ${item.description}\n\n📈 reyting: ${item.avg_reytig}\n\n🆔 ID: ${item.id}`;
                 if (item.image) {
                     await ctx.replyWithPhoto(item.image, {
                         caption,
@@ -300,7 +303,7 @@ let BotService = class BotService {
             const { name, price, description, image } = ctx.session.data;
             if (name && price && description && image) {
                 await ctx.replyWithPhoto(image, {
-                    caption: `📝 Ma'lumotlar:\n🍽 <b>${name}</b>\n💰 ${price} so'm\n📄 ${description}\n\n✅ Saqlashni xohlaysizmi?`,
+                    caption: `📝 Ma'lumotlar:\n🏕️ <b>${name}</b>\n💰 ${price} so'm\n📄 ${description}\n\n✅ Saqlashni xohlaysizmi?`,
                     parse_mode: 'HTML',
                     ...telegraf_1.Markup.inlineKeyboard([
                         [telegraf_1.Markup.button.callback('✅ Saqlash', 'save_menu')],
@@ -320,15 +323,15 @@ let BotService = class BotService {
     }
     async findAll(ctx) {
         try {
-            const menyular = await this.prisma.menyu.findMany({
+            const dachalar = await this.prisma.dacha.findMany({
                 orderBy: { avg_reytig: 'desc' },
             });
-            if (!menyular.length) {
+            if (!dachalar.length) {
                 await ctx.reply('🛑 Hozircha Dachalar mavjud emas.');
                 return;
             }
-            for (const item of menyular) {
-                const caption = `🍽 <b>${item.name}</b>\n\n💰 Narxi: ${item.price} so'm\n\n📝 Tavsif: ${item.description}\n\n📈 reyting: ${item.avg_reytig}\n\n🆔 ID: ${item.id}`;
+            for (const item of dachalar) {
+                const caption = `🏕️ <b>${item.name}</b>\n\n💰 Narxi: ${item.price} so'm\n\n📝 Tavsif: ${item.description}\n\n📈 reyting: ${item.avg_reytig}\n\n🆔 ID: ${item.id}`;
                 if (item.image) {
                     await ctx.replyWithPhoto(item.image, {
                         caption,
@@ -350,18 +353,18 @@ let BotService = class BotService {
     }
     async Bugun(ctx) {
         try {
-            const menyular = await this.prisma.menyu.findMany();
-            if (!menyular.length) {
+            const dachalar = await this.prisma.dacha.findMany();
+            if (!dachalar.length) {
                 await ctx.reply('🛑 Hozircha Dachalar mavjud emas.');
                 return;
             }
             ctx.session.stepAdmin = "bugun";
             ctx.session.SS = "ss";
-            const buttons = menyular.map((menu) => [
-                telegraf_1.Markup.button.callback(menu.name || 'Nomalum', `bugun:${menu.id}`),
+            const buttons = dachalar.map((dacha) => [
+                telegraf_1.Markup.button.callback(dacha.name || 'Nomalum', `bugun:${dacha.id}`),
             ]);
-            await ctx.reply("📃 Bugun qushlgan Dachalarni tanlayng:", telegraf_1.Markup.inlineKeyboard(menyular.map((menu) => [
-                telegraf_1.Markup.button.callback(menu.name?.trim() ? menu.name : `ID:${menu.id}`, `bugun:${menu.id}`),
+            await ctx.reply("📃 Bugun qushlgan Dachalarni tanlayng:", telegraf_1.Markup.inlineKeyboard(dachalar.map((dacha) => [
+                telegraf_1.Markup.button.callback(dacha.name?.trim() ? dacha.name : `ID:${dacha.id}`, `bugun:${dacha.id}`),
             ])));
             ctx.answerCbQuery();
             ctx.reply("Menyu", telegraf_1.Markup.keyboard([["✅ Saqlash", "Ortga"], ["💎 Saralangan Dachalar", "🗑 O'chirish"]
@@ -375,16 +378,16 @@ let BotService = class BotService {
     async Saqlash(ctx) {
         try {
             const mavjudlar = await this.prisma.bugun.findMany();
-            const mavjudIds = new Set(mavjudlar.map(i => i.menyuId));
-            const sessiyaDachalar = ctx.session.Dachalar || [];
+            const mavjudIds = new Set(mavjudlar.map(i => i.dachaId));
+            const sessiyaDachalar = ctx.session.dacha || [];
             const yangiDachalar = sessiyaDachalar.filter(id => !mavjudIds.has(id));
             if (yangiDachalar.length > 0) {
-                await Promise.all(yangiDachalar.map(id => this.prisma.bugun.create({ data: { menyuId: id } })));
-                ctx.session.Dachalar = [];
+                await Promise.all(yangiDachalar.map(id => this.prisma.bugun.create({ data: { dachaId: id } })));
+                ctx.session.dacha = [];
                 ctx.reply("✅ Yangi ma'lumotlar saqlandi 🎉");
             }
             else {
-                ctx.reply("ℹ️ Bu ovqat allaqachon tanlangan!");
+                ctx.reply("ℹ️ Bu dacha allaqachon tanlangan!");
             }
         }
         catch (error) {
@@ -394,17 +397,17 @@ let BotService = class BotService {
     }
     async delet(ctx) {
         try {
-            const menyular = await this.prisma.menyu.findMany();
-            if (!menyular.length) {
+            const dachalar = await this.prisma.dacha.findMany();
+            if (!dachalar.length) {
                 await ctx.reply('🛑 Hozircha Dachalar mavjud emas.');
                 return;
             }
-            const buttons = menyular.map((menu) => [
-                telegraf_1.Markup.button.callback(menu.name || 'Nomalum', `del:${menu.id}`),
+            const buttons = dachalar.map((dacha) => [
+                telegraf_1.Markup.button.callback(dacha.name || 'Nomalum', `del:${dacha.id}`),
             ]);
             await ctx.answerCbQuery();
-            await ctx.reply("🗑 O'chirmoqchi bo'lgan ovqatni tanlang:", telegraf_1.Markup.inlineKeyboard(menyular.map((menu) => [
-                telegraf_1.Markup.button.callback(menu.name?.trim() ? menu.name : `ID:${menu.id}`, `del:${menu.id}`),
+            await ctx.reply("🗑 O'chirmoqchi bo'lgan dacha tanlang:", telegraf_1.Markup.inlineKeyboard(dachalar.map((dacha) => [
+                telegraf_1.Markup.button.callback(dacha.name?.trim() ? dacha.name : `ID:${dacha.id}`, `del:${dacha.id}`),
             ])));
         }
         catch (error) {
@@ -414,7 +417,7 @@ let BotService = class BotService {
     }
     async sendReytingPrompt(ctx, menuName) {
         await ctx.answerCbQuery();
-        await ctx.reply(`🍽 Siz <b>${menuName}</b> taomini tanladingiz.\nReyting bering (1-5):`, {
+        await ctx.reply(`🏕️ Siz <b>${menuName}</b> Dacha tanladingiz.\nReyting bering (1-5):`, {
             parse_mode: 'HTML',
             reply_markup: telegraf_1.Markup.inlineKeyboard([
                 [
@@ -434,16 +437,16 @@ let BotService = class BotService {
                 await ctx.reply('🤷‍♂️ Bugun uchun hech qanday dacha tanlanmagan.');
                 return;
             }
-            const menyuIds = bugungiDachalar.map(item => item.menyuId);
-            const menyular = await this.prisma.menyu.findMany({
-                where: { id: { in: menyuIds } },
+            const dachaIds = bugungiDachalar.map(item => item.dachaId);
+            const dachalar = await this.prisma.dacha.findMany({
+                where: { id: { in: dachaIds } },
             });
-            if (!menyular.length) {
-                await ctx.reply("🛑 Tanlangan menyular topilmadi.");
+            if (!dachalar.length) {
+                await ctx.reply("🛑 Tanlangan dachalar topilmadi.");
                 return;
             }
-            const buttons = menyular.map(menu => [
-                telegraf_1.Markup.button.callback(`🗑 ${menu.name || 'Noma\'lum'}`, `UU:${menu.id}`)
+            const buttons = dachalar.map(dacha => [
+                telegraf_1.Markup.button.callback(`🗑 ${dacha.name || 'Noma\'lum'}`, `UU:${dacha.id}`)
             ]);
             await ctx.reply("🗑 O'chirish uchun saralangan dacha tanlang:", telegraf_1.Markup.inlineKeyboard(buttons));
         }

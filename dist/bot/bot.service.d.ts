@@ -2,13 +2,14 @@ import { IMyContext } from 'src/helpers/bot.sessin';
 import { PrismaService } from 'src/prisma/prisma.service';
 export declare class BotService {
     private readonly prisma;
+    onAdmineditDacha(ctx: IMyContext): void;
     constructor(prisma: PrismaService);
     onStartAdmin(ctx: IMyContext): Promise<void>;
-    onAdmineditMenyu(ctx: IMyContext): Promise<void>;
+    onAdmineditDach(ctx: IMyContext): Promise<void>;
     onStart(ctx: IMyContext): Promise<void>;
     create(ctx: IMyContext): Promise<void>;
     Kunlik(ctx: IMyContext): Promise<void>;
-    onUserAllMenyu(ctx: IMyContext): Promise<void>;
+    onUserAllDacha(ctx: IMyContext): Promise<void>;
     onhelp(ctx: IMyContext): Promise<void>;
     OnHelp(ctx: IMyContext): Promise<void>;
     onOrtga(ctx: IMyContext): Promise<void>;
